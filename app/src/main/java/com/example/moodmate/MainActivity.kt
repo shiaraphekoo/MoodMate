@@ -42,12 +42,12 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, CalendarActivity::class.java)
             startActivity(intent)
         }
-
-        binding.buttonMoodTrends.setOnClickListener {
-            // Logic to navigate to the Mood Trends screen
-            val intent = Intent(this, MoodTrendsActivity::class.java)
-            startActivity(intent)
-        }
+//
+//        binding.buttonMoodTrends.setOnClickListener {
+//            // Logic to navigate to the Mood Trends screen
+//            val intent = Intent(this, MoodTrendsActivity::class.java)
+//            startActivity(intent)
+//        }
 
         // --- Handle Settings Button Click ---
         binding.buttonSettings.setOnClickListener {
