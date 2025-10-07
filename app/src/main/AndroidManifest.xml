@@ -29,16 +29,20 @@
         <activity android:name=".CalendarActivity"
             android:exported="false"/>
 
-        <!-- 4. The Login Activity: No launcher filter, only launched by redirect -->
+        <!-- 4. Mood Trends Activity -->
+        <activity android:name=".MoodTrendsActivity"
+            android:exported="false"/>
+
+        <!-- 5. The Login Activity: No launcher filter, only launched by redirect -->
         <activity android:name=".LoginActivity"
             android:exported="false">
         </activity>
 
-        <!-- 5. The Registration Activity -->
+        <!-- 6. The Registration Activity -->
         <activity android:name=".RegisterActivity"
             android:exported="false" />
 
-        <!-- 6. The Settings Activity -->
+        <!-- 7. The Settings Activity -->
         <activity android:name=".SettingsActivity"
             android:exported="false" />
 

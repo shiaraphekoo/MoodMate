@@ -42,25 +42,20 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, CalendarActivity::class.java)
             startActivity(intent)
         }
-//
-//        binding.buttonMoodTrends.setOnClickListener {
-//            // Logic to navigate to the Mood Trends screen
-//            val intent = Intent(this, MoodTrendsActivity::class.java)
-//            startActivity(intent)
-//        }
+
+        binding.buttonMoodTrends.setOnClickListener {
+            // Logic to navigate to the Mood Trends screen
+            val intent = Intent(this, MoodTrendsActivity::class.java)
+            startActivity(intent)
+        }
 
         // --- Handle Settings Button Click ---
         binding.buttonSettings.setOnClickListener {
             val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
         }
+ }
 
-        // In a real app, you would start loading the user's mood data here using Firestore.
-    }
-
-    // When returning from Settings (where the theme might have changed), the theme will be reapplied
-    // when the activity is naturally recreated, but if the theme manager works correctly,
-    // the change should be visible immediately upon returning via recreate() in SettingsActivity.
 
     override fun onResume() {
         super.onResume()
