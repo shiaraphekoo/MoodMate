@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="32dp"
+    tools:context=".MoodTrendsActivity">
+
+    <ImageView
+        android:id="@+id/app_icon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_moodmate_logo"
+        android:contentDescription="MoodMate App Icon"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/title_mood_trends"
+        app:layout_constraintVertical_chainStyle="packed"/>
+
+    <TextView
+        android:id="@+id/title_mood_trends"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mood Trends"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/app_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/subtitle_mood_trends"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your Mood Trends this Month"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/title_mood_trends"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Left side Y-Axis Mood Legend -->
+    <LinearLayout
+        android:id="@+id/mood_legend_y_axis"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintTop_toTopOf="@+id/mood_graph_container"
+        app:layout_constraintBottom_toBottomOf="@+id/mood_graph_container"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <!-- Highest Mood (Excited) -->
+        <TextView android:layout_width="wrap_content" android:layout_height="0dp"
+            android:text="Excited" android:gravity="center_vertical"
+            android:layout_weight="1" android:textSize="12sp"/>
+        <!-- Happy -->
+        <TextView android:layout_width="wrap_content" android:layout_height="0dp"
+            android:text="Happy" android:gravity="center_vertical"
+            android:layout_weight="1" android:textSize="12sp"/>
+        <!-- Neutral -->
+        <TextView android:layout_width="wrap_content" android:layout_height="0dp"
+            android:text="Neutral" android:gravity="center_vertical"
+            android:layout_weight="1" android:textSize="12sp"/>
+        <!-- Sad -->
+        <TextView android:layout_width="wrap_content" android:layout_height="0dp"
+            android:text="Sad" android:gravity="center_vertical"
+            android:layout_weight="1" android:textSize="12sp"/>
+        <!-- Lowest Mood (Angry) -->
+        <TextView android:layout_width="wrap_content" android:layout_height="0dp"
+            android:text="Angry" android:gravity="center_vertical"
+            android:layout_weight="1" android:textSize="12sp"/>
+    </LinearLayout>
+
+
+    <!-- Container for the dynamic graph view -->
+    <LinearLayout
+        android:id="@+id/mood_graph_container"
+        android:layout_width="0dp"
+        android:layout_height="300dp"
+        android:orientation="vertical"
+        android:padding="8dp"
+        android:background="@drawable/rounded_border"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@+id/subtitle_mood_trends"
+        app:layout_constraintStart_toEndOf="@+id/mood_legend_y_axis"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/current_month_selector"/>
+
+    <!-- X-Axis Labels (Weeks) -->
+    <LinearLayout
+        android:id="@+id/x_axis_labels"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/mood_graph_container"
+        app:layout_constraintStart_toStartOf="@+id/mood_graph_container"
+        app:layout_constraintEnd_toEndOf="@+id/mood_graph_container">
+
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:text="Week 1" android:gravity="center" android:textSize="12sp"/>
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:text="Week 2" android:gravity="center" android:textSize="12sp"/>
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:text="Week 3" android:gravity="center" android:textSize="12sp"/>
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:text="Week 4" android:gravity="center" android:textSize="12sp"/>
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/current_month_selector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="October 2025 ▼"
+        android:textSize="16sp"
+        android:paddingTop="32dp"
+        app:layout_constraintTop_toBottomOf="@+id/x_axis_labels"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
