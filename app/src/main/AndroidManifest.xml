@@ -1,0 +1,40 @@
+<!-- You will need to manually edit your AndroidManifest.xml file. -->
+<!-- Make sure your <application> tag includes the android:name attribute for custom theming,
+     though AppCompatActivity handles a lot of the dark mode logic. -->
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.moodmate">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.MoodMate"> <!-- Use your main app theme -->
+
+        <!-- 1. The Main Activity (Landing after login) -->
+        <activity android:name=".MainActivity"
+            android:exported="false" />
+
+        <!-- 2. The Login Activity (Your entry point, since it checks auth status) -->
+        <activity android:name=".LoginActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- 3. The Registration Activity -->
+        <activity android:name=".RegisterActivity"
+            android:exported="false" />
+
+        <!-- 4. The Settings Activity -->
+        <activity android:name=".SettingsActivity"
+            android:exported="false" />
+
+    </application>
+</manifest>

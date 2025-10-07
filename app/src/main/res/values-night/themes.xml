@@ -1,0 +1,8 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Base.Theme.MoodMate" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/purple_200</item>
+        <item name="colorSecondary">@color/teal_200</item>
+    </style>
+
+    <style name="Theme.MoodMate" parent="Base.Theme.MoodMate" />
+</resources>
