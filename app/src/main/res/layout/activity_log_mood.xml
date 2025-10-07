@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="32dp"
+    tools:context=".LogMoodActivity">
+
+    <ImageView
+        android:id="@+id/app_icon"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/ic_moodmate_logo"
+        android:contentDescription="MoodMate App Icon"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/title_log_mood"
+        app:layout_constraintVertical_chainStyle="packed"/>
+
+    <TextView
+        android:id="@+id/title_log_mood"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Log Mood"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/app_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/prompt_how_feeling"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="How are you feeling today?"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/title_log_mood"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/mood_emojis_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/prompt_how_feeling"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/mood_angry"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_mood_angry"
+            android:contentDescription="Angry Mood"
+            android:layout_margin="8dp"/>
+        <ImageView
+            android:id="@+id/mood_sad"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_mood_sad"
+            android:contentDescription="Sad Mood"
+            android:layout_margin="8dp"/>
+        <ImageView
+            android:id="@+id/mood_neutral"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_mood_neutral"
+            android:contentDescription="Neutral Mood"
+            android:layout_margin="8dp"/>
+        <ImageView
+            android:id="@+id/mood_happy"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_mood_happy"
+            android:contentDescription="Happy Mood"
+            android:layout_margin="8dp"/>
+        <ImageView
+            android:id="@+id/mood_excited"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_mood_excited"
+            android:contentDescription="Excited Mood"
+            android:layout_margin="8dp"/>
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/edit_text_note"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:hint="Add Note"
+        android:inputType="textMultiLine"
+        android:gravity="top|start"
+        android:padding="12dp"
+        android:background="@drawable/rounded_input_background"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@+id/mood_emojis_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <Button
+        android:id="@+id/button_add_photo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Add Photo"
+        android:background="@drawable/black_rounded_button"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_note"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <Button
+        android:id="@+id/button_submit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:background="@drawable/black_rounded_button"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@+id/button_add_photo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

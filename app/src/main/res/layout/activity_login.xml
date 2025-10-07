@@ -87,12 +87,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/button_login" />
 
-    <!-- A quick way to get the custom drawable shapes needed for the XML above.
-         You need to create these files in app/src/main/res/drawable/
 
-         1. ic_moodmate_logo.xml (Vector Drawable for the icon)
-         2. rounded_input_background.xml
-         3. black_rounded_button.xml
-    -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

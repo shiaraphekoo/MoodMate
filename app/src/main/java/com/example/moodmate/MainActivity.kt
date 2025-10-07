@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Must apply theme before super.onCreate()
+
         ThemeManager.loadAndApplyTheme(this)
         super.onCreate(savedInstanceState)
 
@@ -59,7 +59,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        // Ensure the theme is always applied on resume in case of background/foreground changes
+
         ThemeManager.loadAndApplyTheme(this)
     }
 }
+
+
+//AI (Google Gemini) was used in this assignment as a tool to help me with sections I was having errors with. (Indicated in brackets)

@@ -167,7 +167,7 @@ class CalendarActivity : AppCompatActivity() {
                 layoutParams = getGridLayoutParams(cellHeightPx) // Use calculated height
                 // Optionally highlight the current day
                 if (day == currentDay) {
-                    // Make sure you create this drawable!
+
                     setBackgroundResource(R.drawable.rounded_day_highlight)
                 }
             }
@@ -217,7 +217,7 @@ class CalendarActivity : AppCompatActivity() {
         }
     }
 
-    /** Helper for standard GridLayout.LayoutParams, now including height */
+    /** Helper for standard GridLayout.LayoutParams, including height (Google Gemini, 2025)*/
     private fun getGridLayoutParams(heightPx: Int): GridLayout.LayoutParams {
         return GridLayout.LayoutParams(
             GridLayout.spec(GridLayout.UNDEFINED, 1f),
@@ -228,7 +228,7 @@ class CalendarActivity : AppCompatActivity() {
         }
     }
 
-    /** Helper to convert DP to Pixels using application context resources */
+    /** Helper to convert DP to Pixels using application context resources (Google Gemini, 2025) */
     private fun dpToPx(dp: Int): Int {
         return TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,

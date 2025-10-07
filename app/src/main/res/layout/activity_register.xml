@@ -31,7 +31,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/logo_icon" />
 
-    <!-- Username/Name Input (Optional for basic Firebase Auth, but good practice) -->
+    <!-- Username/Name Input  -->
     <EditText
         android:id="@+id/input_username"
         android:layout_width="match_parent"

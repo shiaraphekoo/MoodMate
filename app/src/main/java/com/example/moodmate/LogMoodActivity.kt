@@ -24,7 +24,7 @@ class LogMoodActivity : AppCompatActivity() {
         firestoreDb = FirebaseFirestore.getInstance()
 
         // --- Handle Mood Selection ---
-        // These IDs must match the IDs of your mood emoji ImageViews in the XML
+
         binding.moodAngry.setOnClickListener { selectMood("Angry") }
         binding.moodSad.setOnClickListener { selectMood("Sad") }
         binding.moodNeutral.setOnClickListener { selectMood("Neutral") }
@@ -39,7 +39,7 @@ class LogMoodActivity : AppCompatActivity() {
 
     private fun selectMood(mood: String) {
         selectedMood = mood
-        // Here you can add logic to visually highlight the selected mood emoji
+
         Toast.makeText(this, "Selected: $selectedMood", Toast.LENGTH_SHORT).show()
     }
 
@@ -62,7 +62,7 @@ class LogMoodActivity : AppCompatActivity() {
             "userId" to userId,
             "mood" to selectedMood,
             "note" to note,
-            "timestamp" to Date(), // Firestore handles Date objects correctly
+            "timestamp" to Date(),
             "photoURL" to "" // Placeholder for photo URL functionality
         )
 

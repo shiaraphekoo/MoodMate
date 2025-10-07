@@ -69,7 +69,7 @@ class MoodTrendsActivity : AppCompatActivity() {
         val startDate = calendar.time
 
         // 1. Fetch moods for the current user within the date range
-        // NOTE: This query requires a composite index on (userId ASC, timestamp ASC)
+
         firestoreDb.collection("moodEntries")
             .whereEqualTo("userId", userId)
             .whereGreaterThanOrEqualTo("timestamp", startDate)
@@ -100,7 +100,7 @@ class MoodTrendsActivity : AppCompatActivity() {
 
     /**
      * Converts raw Firestore documents into a list of 30 daily mood values.
-     * Missing days are filled with the Neutral (3.0f) value.
+     * Missing days are filled with the Neutral (3.0f) value. (Google Gemini, 2025)
      */
     private fun processMoodData(documents: List<DocumentSnapshot>): List<Float> {
         val calendar = Calendar.getInstance()
@@ -202,7 +202,7 @@ class MoodTrendsActivity : AppCompatActivity() {
             super.onDraw(canvas)
 
             if (dataPoints.isEmpty()) {
-                // Optionally draw a message or just return
+
                 return
             }
 
@@ -228,7 +228,7 @@ class MoodTrendsActivity : AppCompatActivity() {
                 // Calculate the center of the bar
                 val xCenter = padding + (index * (barWidth + barSpacing)) + (barWidth / 2)
 
-                // The height of the bar is proportional to the mood value.
+                // The height of the bar is proportional to the mood value. (Google Gemini, 2025)
                 // A higher mood value means a taller bar, extending upwards from the baseline.
                 // We map values from 1.0 to 5.0.
                 val barHeight = ((value - minValue) / valueRange) * graphHeight

@@ -78,7 +78,7 @@ class RegisterActivity : AppCompatActivity() {
             "email" to email,
             "name" to username,
             "createdAt" to com.google.firebase.Timestamp.now()
-            // languagePreference will be added by Settings if it's not the default
+
         )
 
         // Use the UID as the document ID for easy lookup
