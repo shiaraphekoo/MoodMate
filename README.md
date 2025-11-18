@@ -1,6 +1,6 @@
 Overview
 
-MoodMate is a modern Android mobile application built natively with Kotlin. Its primary goal is to empower users to track, visualize, and understand their emotional patterns over time. The app is designed for reliability, featuring secure Firebase Authentication, real-time data persistence via Firestore, and flexible support for localization and device themes. The focus is on providing a seamless, robust, and accessible platform for personal well-being analysis.
+MoodMate is a modern Android mobile application built natively with Kotlin. Its primary goal is to empower users to track, visualize, and understand their emotional patterns over time. The app is designed for reliability, featuring secure Firebase Authentication, real-time data persistence via Firestore, and flexible support for localization and device themes. The focus is on providing a seamless, robust, and accessible platform for personal well-being analysis. Demo: https://youtu.be/Kul_x5PjQQs
 
 ✨ Key Features
 
