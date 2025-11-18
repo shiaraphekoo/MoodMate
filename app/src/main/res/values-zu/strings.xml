@@ -1,0 +1,46 @@
+<resources>
+    <string name="app_name">MoodMate</string>
+
+    <string name="login_title">Ngena</string>
+    <string name="login_email_hint">I-imeyili</string>
+    <string name="login_password_hint">Iphasiwedi</string>
+    <string name="button_login">Ngena</string>
+    <string name="link_register">Awunayo i-akhawunti? Bhalisa lapha.</string>
+    <string name="register_title">Bhalisa</string>
+    <string name="register_username_hint">Igama Lomsebenzisi</string>
+    <string name="register_confirm_password_hint">Qinisekisa Iphasiwedi</string>
+    <string name="register_submit_button">Thumela</string>
+    <string name="link_login">Usuvele unayo i-akhawunti? Ngena</string>
+    <string name="biometric_login_desc">Ukungena okusheshayo nge-Fingerprint noma i-Face ID</string>
+
+    <string name="button_log_mood">Faka Umoya</string>
+    <string name="button_calendar_view">Ikhalenda</string>
+    <string name="button_mood_trends">Amathrendi Omoya</string>
+    <string name="button_settings">Izilungiselelo</string>
+
+    <string name="log_mood_prompt">Uzizwa kanjani namuhla?</string>
+    <string name="log_mood_note_hint">Faka Inothi</string>
+    <string name="log_mood_add_photo">Faka Isithombe</string>
+    <string name="log_mood_submit_button">Thumela</string>
+
+    <string name="mood_excited">Jabule Kakhulu</string>
+    <string name="mood_happy">Jabule</string>
+    <string name="mood_neutral">Ongathathi Hlangothi</string>
+    <string name="mood_sad">Dabukile</string>
+    <string name="mood_angry">Thukuthele</string>
+
+    <string name="calendar_subtitle">Imizwa Yakho Yenyanga!</string>
+    <string name="current_month_placeholder">Okthoba 2025 ▼</string>
+
+    <string name="trends_subtitle">Amathrendi Omoya Wakho Le Nyanga</string>
+    <string name="week_1_label">Iviki 1</string>
+    <string name="week_2_label">Iviki 2</string>
+    <string name="week_3_label">Iviki 3</string>
+    <string name="week_4_label">Iviki 4</string>
+
+    <string name="setting_title_language">Khetha Ulimi</string>
+    <string name="language_english">IsiNgisi (en)</string>
+    <string name="language_zulu">IsiZulu (zu)</string>
+    <string name="language_afrikaans">IsiBhunu (af)</string>
+    <string name="log_mood_photo_url_hint">Faka i-URL Yesithombe Somphakathi Lapha</string>
+</resources>

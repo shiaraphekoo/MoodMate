@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Layout for the Login screen based on the MoodMate prototype design (Page 6) -->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,7 +7,6 @@
     android:padding="32dp"
     tools:context=".LoginActivity">
 
-    <!-- MoodMate Logo/Icon Placeholder -->
     <ImageView
         android:id="@+id/logo_icon"
         android:layout_width="120dp"
@@ -18,75 +16,77 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="MoodMate App Logo" />
+        android:contentDescription="@string/app_name" /> <TextView
+    android:id="@+id/title_login"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/login_title" android:textSize="28sp"
+    android:textStyle="bold"
+    android:layout_marginTop="16dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/logo_icon" />
 
-    <TextView
-        android:id="@+id/title_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Login"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/logo_icon" />
-
-    <!-- Username/Email Input -->
     <EditText
-        android:id="@+id/input_email"
+        android:id="@+id/editTextEmail"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_marginTop="48dp"
         android:background="@drawable/rounded_input_background"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
+        android:hint="@string/login_email_hint" android:inputType="textEmailAddress"
         android:paddingStart="24dp"
         android:paddingEnd="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title_login" />
 
-    <!-- Password Input -->
     <EditText
-        android:id="@+id/input_password"
+        android:id="@+id/editTextPassword"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/rounded_input_background"
-        android:hint="Password"
-        android:inputType="textPassword"
+        android:hint="@string/login_password_hint" android:inputType="textPassword"
         android:paddingStart="24dp"
         android:paddingEnd="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/input_email" />
+        app:layout_constraintTop_toBottomOf="@id/editTextEmail" />
 
-    <!-- Login Button -->
     <Button
         android:id="@+id/button_login"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="56dp"
         android:layout_marginTop="32dp"
-        android:text="Submit"
-        android:textColor="@android:color/white"
+        android:layout_marginEnd="16dp"
+        android:text="@string/button_login" android:textColor="@android:color/white"
         android:background="@drawable/black_rounded_button"
-        app:layout_constraintTop_toBottomOf="@id/input_password" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextPassword"
+        app:layout_constraintEnd_toStartOf="@id/button_biometric_login" />
 
-    <!-- Register Link -->
+    <ImageButton
+        android:id="@+id/button_biometric_login"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:background="@drawable/black_rounded_button"
+        android:contentDescription="@string/biometric_login_desc" android:padding="12dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_fingerprint"
+        app:layout_constraintTop_toTopOf="@id/button_login"
+        app:layout_constraintBottom_toBottomOf="@id/button_login"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <TextView
         android:id="@+id/text_link_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Don't have an account? Sign Up"
-        android:textColor="?attr/colorPrimary"
+        android:text="@string/link_register" android:textColor="?attr/colorPrimary"
         android:clickable="true"
         android:focusable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/button_login" />
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

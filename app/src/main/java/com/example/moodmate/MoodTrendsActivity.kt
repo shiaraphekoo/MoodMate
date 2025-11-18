@@ -23,6 +23,7 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
+
 class MoodTrendsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMoodTrendsBinding
@@ -39,7 +40,9 @@ class MoodTrendsActivity : AppCompatActivity() {
         "Happy" to 4.0f,
         "Excited" to 5.0f
     )
-
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(LanguageManager.updateLanguage(newBase))
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMoodTrendsBinding.inflate(layoutInflater)
@@ -230,7 +233,6 @@ class MoodTrendsActivity : AppCompatActivity() {
 
                 // The height of the bar is proportional to the mood value. (Google Gemini, 2025)
                 // A higher mood value means a taller bar, extending upwards from the baseline.
-                // We map values from 1.0 to 5.0.
                 val barHeight = ((value - minValue) / valueRange) * graphHeight
 
                 // The bottom of the bar will be at the baselineY (representing minValue, e.g., Angry=1.0)

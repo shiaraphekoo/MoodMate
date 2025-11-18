@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.example.moodmate.databinding.ActivityRegisterBinding
+import android.content.Context
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -14,6 +15,9 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
 
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(LanguageManager.updateLanguage(newBase))
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         ThemeManager.loadAndApplyTheme(this)
         super.onCreate(savedInstanceState)
@@ -66,7 +70,7 @@ class RegisterActivity : AppCompatActivity() {
 
         // --- Handle Login Link Click ---
         binding.textLinkLogin.setOnClickListener {
-            finish() // Simply close this activity to go back to Login
+            finish()
         }
     }
 

@@ -7,12 +7,16 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.example.moodmate.databinding.ActivitySettingsBinding
 import com.example.moodmate.ThemeManager.Theme // Import the enum
+import android.content.Context
 
 class SettingsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySettingsBinding
     private lateinit var auth: FirebaseAuth
 
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(LanguageManager.updateLanguage(newBase))
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         ThemeManager.loadAndApplyTheme(this)
         super.onCreate(savedInstanceState)
@@ -24,6 +28,7 @@ class SettingsActivity : AppCompatActivity() {
 
         setupThemeSelector()
         setupLogoutButton()
+        setupLanguageSelector()
     }
 
     /**
@@ -52,7 +57,41 @@ class SettingsActivity : AppCompatActivity() {
             recreate()
         }
     }
+    // In SettingsActivity.kt
+    private fun setupLanguageSelector() {
+        val currentLanguage = LanguageManager.getSavedLanguage(this)
 
+        // Initial UI state setup remains correct
+        if (currentLanguage == LanguageManager.ZULU_CODE) {
+            binding.radioZulu.isChecked = true
+        } else {
+            binding.radioEnglish.isChecked = true
+        }
+
+        binding.radioGroupLanguage.setOnCheckedChangeListener { _, checkedId ->
+            val languageToSave = when (checkedId) {
+                binding.radioEnglish.id -> LanguageManager.ENGLISH_CODE
+                binding.radioZulu.id -> LanguageManager.ZULU_CODE
+                else -> LanguageManager.ENGLISH_CODE
+            }
+
+            val languageBeforeChange = LanguageManager.getSavedLanguage(this)
+
+            if (languageToSave != languageBeforeChange) {
+                // 1. Save the new language code
+                LanguageManager.saveLanguage(this, languageToSave)
+
+                // 2. FORCE a complete restart of the Activity/Task
+                val intent = Intent(this, SettingsActivity::class.java)
+
+                // These flags ensure the current activity and any history are cleared
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
+                startActivity(intent)
+                finish() // Finish the old instance of the activity
+            }
+        }
+    }
     /**
      * Sets up the logout functionality.
      */

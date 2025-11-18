@@ -12,8 +12,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:src="@drawable/ic_moodmate_logo"
-        android:contentDescription="MoodMate App Icon"
-        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="MoodMate App Icon"  app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/title_mood_calendar"
@@ -23,8 +22,7 @@
         android:id="@+id/title_mood_calendar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Mood Calendar"
-        android:textSize="24sp"
+        android:text="@string/button_calendar_view"  android:textSize="24sp"
         android:textStyle="bold"
         android:layout_marginTop="8dp"
         app:layout_constraintTop_toBottomOf="@+id/app_icon"
@@ -35,8 +33,7 @@
         android:id="@+id/subtitle_mood_calendar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Your Moods for the Month!"
-        android:layout_marginTop="8dp"
+        android:text="@string/calendar_subtitle"  android:layout_marginTop="8dp"
         app:layout_constraintTop_toBottomOf="@+id/title_mood_calendar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -52,7 +49,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Mood Emoji Legends: Make sure drawables ic_mood_angry, sad, neutral, happy, excited exist -->
         <ImageView
             android:layout_width="32dp"
             android:layout_height="32dp"
@@ -88,7 +84,6 @@
 
     </LinearLayout>
 
-    <!-- NEW: Container for the dynamic calendar grid -->
     <LinearLayout
         android:id="@+id/calendar_container"
         android:layout_width="0dp"
@@ -106,16 +101,13 @@
         app:layout_constraintVertical_bias="0.0"
         app:layout_constraintHorizontal_bias="0.0">
 
-        <!-- The Kotlin code will now load content directly into this empty container. -->
-
     </LinearLayout>
 
     <TextView
         android:id="@+id/current_month_selector"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="October 2025 ▼"
-        android:textSize="16sp"
+        android:text="@string/current_month_placeholder"  android:textSize="16sp"
         android:paddingTop="16dp"
         app:layout_constraintTop_toBottomOf="@+id/calendar_container"
         app:layout_constraintStart_toStartOf="parent"

@@ -1,6 +1,6 @@
 package com.example.moodmate
 
-import android.content.res.Resources
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
@@ -16,10 +16,14 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.moodmate.databinding.ActivityCalendarViewBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
+import com.google.firebase.Timestamp
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+
+import com.example.moodmate.ThemeManager
 
 class CalendarActivity : AppCompatActivity() {
 
@@ -29,9 +33,14 @@ class CalendarActivity : AppCompatActivity() {
 
     private val TAG = "CalendarActivity"
 
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(LanguageManager.updateLanguage(newBase))
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        ThemeManager.loadAndApplyTheme(this)
+
         super.onCreate(savedInstanceState)
-        // Corrected binding class name
         binding = ActivityCalendarViewBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -40,67 +49,97 @@ class CalendarActivity : AppCompatActivity() {
 
         // Set the current month selector text
         val currentMonthFormat = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
-        binding.currentMonthSelector.text = currentMonthFormat.format(Date())
+        val currentCalendar = Calendar.getInstance()
+        binding.currentMonthSelector.text = currentMonthFormat.format(currentCalendar.time)
 
-        fetchMoodData()
+        fetchMoodData(currentCalendar)
     }
 
-    private fun fetchMoodData() {
+    override fun onResume() {
+        super.onResume()
+        ThemeManager.loadAndApplyTheme(this)
+    }
+
+    /**
+     * Fetches mood data for the specified month from Firestore.
+     * @param calendar The Calendar instance representing the month to display.
+     */
+    private fun fetchMoodData(calendar: Calendar) {
         val userId = auth.currentUser?.uid
         if (userId == null) {
             Toast.makeText(this, "User not authenticated. Please log in.", Toast.LENGTH_LONG).show()
             return
         }
 
-        // Fetch moods for the current user
+        // --- 1. Define Month Boundaries using Firestore Timestamp ---
+        val startCalendar = calendar.clone() as Calendar
+        startCalendar.set(Calendar.DAY_OF_MONTH, 1)
+        startCalendar.set(Calendar.HOUR_OF_DAY, 0)
+        startCalendar.set(Calendar.MINUTE, 0)
+        startCalendar.set(Calendar.SECOND, 0)
+        startCalendar.set(Calendar.MILLISECOND, 0)
+        val monthStartTimestamp = Timestamp(startCalendar.time)
+
+        val endCalendar = calendar.clone() as Calendar
+        endCalendar.set(Calendar.DAY_OF_MONTH, endCalendar.getActualMaximum(Calendar.DAY_OF_MONTH))
+        endCalendar.set(Calendar.HOUR_OF_DAY, 23)
+        endCalendar.set(Calendar.MINUTE, 59)
+        endCalendar.set(Calendar.SECOND, 59)
+        endCalendar.set(Calendar.MILLISECOND, 999)
+        val monthEndTimestamp = Timestamp(endCalendar.time)
+
+        // Clear previous calendar view before fetching new data
+        binding.calendarContainer.removeAllViews()
+
+        // --- 2. Query the data from Firestore with filters ---
         firestoreDb.collection("moodEntries")
             .whereEqualTo("userId", userId)
-            .orderBy("timestamp")
+            .whereGreaterThanOrEqualTo("timestamp", monthStartTimestamp)
+            .whereLessThanOrEqualTo("timestamp", monthEndTimestamp)
+            .orderBy("timestamp", Query.Direction.ASCENDING)
             .get()
             .addOnSuccessListener { result ->
-                // Remove the initial content/loading text
-                binding.calendarContainer.removeAllViews()
 
                 if (result.isEmpty) {
                     val noDataText = TextView(this).apply {
-                        text = "No mood entries found yet. Log a mood!"
-                        textSize = 20f
+                        text = "No mood entries found for this month."
+                        textSize = 16f
                         gravity = Gravity.CENTER
                         layoutParams = LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.MATCH_PARENT,
-                            LinearLayout.LayoutParams.MATCH_PARENT
+                            dpToPx(100)
                         )
+                        setPadding(0, dpToPx(32), 0, 0)
                     }
                     binding.calendarContainer.addView(noDataText)
+                    updateCalendarView(emptyMap(), calendar)
                     return@addOnSuccessListener
                 }
 
-                val moodEntries = mutableMapOf<Int, String>() // Day of Month -> Mood
-                val dayOfMonthFormat = SimpleDateFormat("dd", Locale.getDefault())
+                val moodEntries = mutableMapOf<Int, String>() // Day of Month -> Mood (latest for the day)
 
                 result.documents.forEach { doc ->
-                    val timestamp = doc.getDate("timestamp")
+                    val timestamp = doc.getTimestamp("timestamp")?.toDate()
                     val mood = doc.getString("mood")
 
                     if (timestamp != null && mood != null) {
-                        // Extract the day of the month from the timestamp
-                        val dayOfMonth = dayOfMonthFormat.format(timestamp).toInt()
-                        // Store the latest mood for that specific day
+                        val cal = Calendar.getInstance().apply { time = timestamp }
+                        val dayOfMonth = cal.get(Calendar.DAY_OF_MONTH)
                         moodEntries[dayOfMonth] = mood
                     }
                 }
 
-                // Update the UI to display the fetched moods on the calendar grid
-                updateCalendarView(moodEntries)
+                updateCalendarView(moodEntries, calendar)
 
             }
             .addOnFailureListener { exception ->
                 Log.e(TAG, "Error getting mood data: ", exception)
-                Toast.makeText(this, "Failed to load calendar data. Check index.", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Failed to load calendar data. Check internet/rules.", Toast.LENGTH_LONG).show()
                 binding.calendarContainer.removeAllViews()
                 val errorText = TextView(this).apply {
                     text = "Failed to load moods. Please check connection."
                     gravity = Gravity.CENTER
+                    setPadding(0, dpToPx(32), 0, 0)
                 }
                 binding.calendarContainer.addView(errorText)
             }
@@ -109,28 +148,31 @@ class CalendarActivity : AppCompatActivity() {
     /**
      * Creates and populates the custom calendar grid inside calendar_container.
      * @param moodData Map of Day of Month (1-31) to Mood String ("Angry", "Happy", etc.)
+     * @param currentMonthCalendar The Calendar instance used to determine day count and start day.
      */
-    private fun updateCalendarView(moodData: Map<Int, String>) {
-        val calendar = Calendar.getInstance()
-        val currentDay = calendar.get(Calendar.DAY_OF_MONTH)
-        val maxDays = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
-        val firstDayOfMonth = Calendar.getInstance().apply { set(Calendar.DAY_OF_MONTH, 1) }
-        // Determine the offset (number of blank cells before the 1st). 0 for Sunday.
+    private fun updateCalendarView(moodData: Map<Int, String>, currentMonthCalendar: Calendar) {
+        // Clear old grid if it exists
+        binding.calendarContainer.removeAllViews()
+
+        val currentDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+        val maxDays = currentMonthCalendar.getActualMaximum(Calendar.DAY_OF_MONTH)
+
+        val firstDayOfMonth = currentMonthCalendar.clone() as Calendar
+        firstDayOfMonth.set(Calendar.DAY_OF_MONTH, 1)
         val offset = firstDayOfMonth.get(Calendar.DAY_OF_WEEK) - 1
 
-        // Calculate a fixed height for each row to prevent collapsing
-        // We assume 7 rows max (1 header + 6 weeks)
-        val minCalendarHeightDp = 300 // Based on the minHeight in your XML
-        val calendarGridHeightPx = dpToPx(minCalendarHeightDp)
-        val cellHeightPx = calendarGridHeightPx / 7 // Divide by 7 rows (1 header + 6 weeks)
+        // Removed reliance on minCalendarHeightDp and used WRAP_CONTENT in the XML,
+        // so we'll adjust cellHeightPx to ensure a nice, readable square cell size.
+        val cellHeightDp = 48
+        val cellHeightPx = dpToPx(cellHeightDp)
 
-        // 1. Create the GridLayout
+
         val calendarGrid = GridLayout(this).apply {
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT // MATCH_PARENT uses the available container height
+                LinearLayout.LayoutParams.WRAP_CONTENT
             )
-            columnCount = 7 // Sunday to Saturday
+            columnCount = 7
         }
 
         // 2. Add Day Headers (S, M, T, W, T, F, S)
@@ -140,14 +182,17 @@ class CalendarActivity : AppCompatActivity() {
                 text = day
                 textSize = 14f
                 gravity = Gravity.CENTER
-                setPadding(0, dpToPx(4), 0, dpToPx(4))
+                setPadding(0, dpToPx(8), 0, dpToPx(8))
                 layoutParams = GridLayout.LayoutParams(
                     GridLayout.spec(GridLayout.UNDEFINED, 1f),
                     GridLayout.spec(GridLayout.UNDEFINED, 1f)
                 ).apply {
                     width = 0
-                    height = cellHeightPx // Force height for header row
+                    height = dpToPx(30)
                 }
+                val typedValue = TypedValue()
+                theme.resolveAttribute(androidx.appcompat.R.attr.colorPrimary, typedValue, true)
+                setTextColor(typedValue.data)
             }
             calendarGrid.addView(dayView)
         }
@@ -160,15 +205,20 @@ class CalendarActivity : AppCompatActivity() {
 
         // 4. Add Day Cells with Mood Dots
         for (day in 1..maxDays) {
+            val isToday = day == currentDay && currentMonthCalendar.get(Calendar.MONTH) == Calendar.getInstance().get(Calendar.MONTH)
+
             val dayCell = LinearLayout(this).apply {
                 orientation = LinearLayout.VERTICAL
-                gravity = Gravity.CENTER
+                gravity = Gravity.TOP or Gravity.CENTER_HORIZONTAL
                 setPadding(dpToPx(4), dpToPx(4), dpToPx(4), dpToPx(4))
-                layoutParams = getGridLayoutParams(cellHeightPx) // Use calculated height
-                // Optionally highlight the current day
-                if (day == currentDay) {
+                layoutParams = getGridLayoutParams(cellHeightPx)
 
-                    setBackgroundResource(R.drawable.rounded_day_highlight)
+                // Highlight the current day using a subtle background color from the theme
+                if (isToday) {
+                    val typedValue = TypedValue()
+                    theme.resolveAttribute(androidx.appcompat.R.attr.colorAccent, typedValue, true)
+                    val accentColor = typedValue.data
+                    setBackgroundColor(Color.argb(50, Color.red(accentColor), Color.green(accentColor), Color.blue(accentColor)))
                 }
             }
 
@@ -177,6 +227,10 @@ class CalendarActivity : AppCompatActivity() {
                 text = day.toString()
                 textSize = 12f
                 gravity = Gravity.CENTER
+                if (isToday) {
+                    // Make text stand out against the highlighted background
+                    setTextColor(Color.BLACK)
+                }
             }
             dayCell.addView(dayNumText)
 
@@ -199,13 +253,13 @@ class CalendarActivity : AppCompatActivity() {
 
     /** Helper to create the colored mood dot drawable */
     private fun createMoodDotDrawable(mood: String?): GradientDrawable {
-        val color = when (mood) {
-            "Angry" -> Color.parseColor("#E53935") // Red
-            "Sad" -> Color.parseColor("#42A5F5")   // Blue
-            "Neutral" -> Color.parseColor("#FFCA28") // Yellow
-            "Happy" -> Color.parseColor("#66BB6A") // Green
-            "Excited" -> Color.parseColor("#7E57C2") // Purple
-            else -> Color.TRANSPARENT // No mood logged
+        val color = when (mood?.lowercase(Locale.getDefault())) {
+            "angry" -> Color.parseColor("#E53935") // Red
+            "sad" -> Color.parseColor("#42A5F5")   // Blue
+            "neutral" -> Color.parseColor("#FFCA28") // Yellow/Orange
+            "happy" -> Color.parseColor("#66BB6A") // Green
+            "excited" -> Color.parseColor("#7E57C2") // Purple
+            else -> Color.TRANSPARENT // Transparent if no mood is logged
         }
 
         return GradientDrawable().apply {
@@ -217,23 +271,23 @@ class CalendarActivity : AppCompatActivity() {
         }
     }
 
-    /** Helper for standard GridLayout.LayoutParams, including height (Google Gemini, 2025)*/
+    /** Helper for standard GridLayout.LayoutParams, including height */
     private fun getGridLayoutParams(heightPx: Int): GridLayout.LayoutParams {
         return GridLayout.LayoutParams(
             GridLayout.spec(GridLayout.UNDEFINED, 1f),
             GridLayout.spec(GridLayout.UNDEFINED, 1f)
         ).apply {
             width = 0
-            height = heightPx // Explicitly set the calculated cell height
+            height = heightPx
         }
     }
 
-    /** Helper to convert DP to Pixels using application context resources (Google Gemini, 2025) */
+    /** Helper to convert DP to Pixels using activity context resources */
     private fun dpToPx(dp: Int): Int {
         return TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
             dp.toFloat(),
-            applicationContext.resources.displayMetrics
+            this.resources.displayMetrics
         ).toInt()
     }
 }

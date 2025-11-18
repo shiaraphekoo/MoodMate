@@ -12,7 +12,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:src="@drawable/ic_moodmate_logo"
-        android:contentDescription="MoodMate App Icon"
+        android:contentDescription="@string/app_name"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,7 +23,7 @@
         android:id="@+id/title_log_mood"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Log Mood"
+        android:text="@string/button_log_mood"
         android:textSize="24sp"
         android:textStyle="bold"
         android:layout_marginTop="8dp"
@@ -35,7 +35,7 @@
         android:id="@+id/prompt_how_feeling"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="How are you feeling today?"
+        android:text="@string/log_mood_prompt"
         android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@+id/title_log_mood"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,43 +56,38 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/ic_mood_angry"
-            android:contentDescription="Angry Mood"
-            android:layout_margin="8dp"/>
+            android:contentDescription="Angry Mood" android:layout_margin="8dp"/>
         <ImageView
             android:id="@+id/mood_sad"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/ic_mood_sad"
-            android:contentDescription="Sad Mood"
-            android:layout_margin="8dp"/>
+            android:contentDescription="Sad Mood" android:layout_margin="8dp"/>
         <ImageView
             android:id="@+id/mood_neutral"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/ic_mood_neutral"
-            android:contentDescription="Neutral Mood"
-            android:layout_margin="8dp"/>
+            android:contentDescription="Neutral Mood" android:layout_margin="8dp"/>
         <ImageView
             android:id="@+id/mood_happy"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/ic_mood_happy"
-            android:contentDescription="Happy Mood"
-            android:layout_margin="8dp"/>
+            android:contentDescription="Happy Mood" android:layout_margin="8dp"/>
         <ImageView
             android:id="@+id/mood_excited"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/ic_mood_excited"
-            android:contentDescription="Excited Mood"
-            android:layout_margin="8dp"/>
+            android:contentDescription="Excited Mood" android:layout_margin="8dp"/>
     </LinearLayout>
 
     <EditText
         android:id="@+id/edit_text_note"
         android:layout_width="0dp"
         android:layout_height="120dp"
-        android:hint="Add Note"
+        android:hint="@string/log_mood_note_hint"
         android:inputType="textMultiLine"
         android:gravity="top|start"
         android:padding="12dp"
@@ -102,26 +97,44 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <Button
-        android:id="@+id/button_add_photo"
+    <!-- URL Field is constrained directly below the Note Field -->
+    <EditText
+        android:id="@+id/editTextPhotoUrl"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Add Photo"
-        android:background="@drawable/black_rounded_button"
+        android:layout_height="56dp"
+        android:hint="@string/log_mood_photo_url_hint"
+        android:inputType="textUri"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:background="@drawable/rounded_input_background"
         android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@+id/edit_text_note"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
+    <!-- Button Add Photo is constrained directly below the URL Field -->
+    <Button
+        android:id="@+id/button_add_photo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/log_mood_add_photo"
+        android:background="@drawable/black_rounded_button"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/editTextPhotoUrl"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Submit Button is constrained directly below the Add Photo Button -->
     <Button
         android:id="@+id/button_submit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Submit"
+        android:text="@string/log_mood_submit_button"
         android:background="@drawable/black_rounded_button"
         android:textColor="@android:color/white"
         android:layout_marginTop="24dp"
         app:layout_constraintTop_toBottomOf="@+id/button_add_photo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

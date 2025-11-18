@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.example.moodmate"
-    compileSdk = 36
+    compileSdk = 36  // match targetSdk
 
     defaultConfig {
         applicationId = "com.example.moodmate"
@@ -14,11 +14,9 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    // Add this block to enable view binding
     buildFeatures {
         viewBinding = true
     }
@@ -42,17 +40,30 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    implementation(platform("com.google.firebase:firebase-bom:34.3.0"))
+
+    // Firebase BOM manages version alignment
+    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
+
+    // Core Firebase libraries - Versions managed by BOM
+    implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth")
-    implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.firebase:firebase-messaging")
+
+    // 🔑 FIX: Using the Firebase Storage KTX artifact without an explicit version.
+    // This ensures the BOM version is used instead of the potentially outdated one in libs.versions.toml.
+    implementation("com.google.firebase:firebase-storage-ktx")
+
+    implementation("androidx.biometric:biometric:1.1.0")
+
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    testImplementation("org.mockito:mockito-core:4.8.0")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
 }
